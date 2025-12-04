@@ -1,5 +1,0 @@
-[[redirects]]
-  from = "/api/*"
-  to = "http://ApiAbarrotes-env-1.eba-pvn5zgfv.us-east-1.elasticbeanstalk.com/:splat"
-  status = 200
-  force = true

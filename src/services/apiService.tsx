@@ -8,7 +8,7 @@ import type { ProviderModel } from "../models/providerModel";
 import type { CreatePurchaseModel, PurchaseModel } from "../models/purchaseModel";
 import type { TransactionModel } from "../models/transactionModel";
 
-const baseUrl = "/api";
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 export const loginUser = async (
   loginRequest: LoginRequest
