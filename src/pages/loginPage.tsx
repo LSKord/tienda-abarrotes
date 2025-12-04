@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import { Password } from "primereact/Password";
+import { Password } from "primereact/password";
 import { Card } from "primereact/card";
 import { loginUser } from "../services/apiService";
 import { useAuth } from "../hooks/useAuth";
@@ -82,7 +82,7 @@ const Login = () => {
             id="passwordText"
             placeholder="Ingrese su contraseña"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e:React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
             feedback={false}
             disabled = {loading}
           />
