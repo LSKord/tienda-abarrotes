@@ -1,7 +1,7 @@
 import { Dialog } from "primereact/dialog";
-import type { PurchaseModel } from "../models/purchaseModel";
-import { useProduct } from "../hooks/useProducts";
-import { useProviders } from "../hooks/useProviders";
+import type { PurchaseModel } from "../../models/purchaseModel";
+import { useProduct } from "../../hooks/useProducts";
+import { useProviders } from "../../hooks/useProviders";
 import { Divider } from "primereact/divider";
 import { Tag } from "primereact/tag";
 
@@ -24,6 +24,7 @@ const PurchaseModal = ({ visible, onHide, purchase }: PurchaseModalProps) => {
       closable
       draggable={false}
       style={{ width: "30rem" }}
+      headerClassName="text-primary-700"
       header={`Compra #${purchase.id}`}
     >
       <div className="flex justify-content-between align-items-center">

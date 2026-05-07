@@ -11,9 +11,10 @@ import { useTransactions } from "../hooks/useTransaction";
 import { useUsers } from "../hooks/useUsers";
 import type { TransactionModel } from "../models/transactionModel";
 import dateFormater from "../utils/dateFormater";
-import DetailsTicketModal from "../components/detailsTicketModal";
+import DetailsTicketModal from "../components/modals/detailsTicketModal";
 import generateTicket from "../utils/generatePdf";
 import getDateFilter from "../utils/filterDates";
+import { generateSalesExcel } from "../utils/Excel/generateSalesReport";
 
 const Tickets = () => {
   const { transactions, loadingTransactions } = useTransactions();
@@ -84,7 +85,7 @@ const Tickets = () => {
 
   const tableHeader = () => {
     return (
-      <div className="flex justify-content-end p-2">
+      <div className="flex justify-content-end p-2 gap-2">
         <Dropdown
           value={viewType}
           options={[
@@ -94,6 +95,12 @@ const Tickets = () => {
           ]}
           onChange={(e) => setViewType(e.value)}
           style={{ width: "130px" }}
+        />
+        <Button
+          label="Generar Reporte"
+          icon="pi pi-file-excel"
+          className="bg-black-alpha-90 text-white border-500"
+          onClick={() => generateSalesExcel(transactions, users)}
         />
       </div>
     );
@@ -117,7 +124,7 @@ const Tickets = () => {
             <Card className="shadow-none border-solid border-1 border-gray-300 ">
               <div className="flex flex-row gap-1 justify-content-between align-items-center">
                 <div className="flex flex-column">
-                  <h4 className="m-0">Ventas</h4>
+                  <h4 className="m-0 text-primary-700">Ventas</h4>
                   <h2 className="mt-2 text-black-alpha-90">
                     {transactions.length}
                   </h2>
@@ -132,7 +139,7 @@ const Tickets = () => {
             <Card className="shadow-none border-solid border-1 border-gray-300 ">
               <div className="flex flex-row gap-1 justify-content-between align-items-center">
                 <div className="flex flex-column">
-                  <h4 className="m-0">Ganancias</h4>
+                  <h4 className="m-0 text-green-400">Ganancias</h4>
                   <h2 className="mt-2 text-green-400">
                     $
                     {transactions
@@ -164,8 +171,7 @@ const Tickets = () => {
         ) : (
           <Card className="mx-8 shadow-none border-solid border-1 border-gray-300">
             <>
-              <h4 className="mb-2">Productos ({products.length})</h4>
-              <p className="mb-4">Maneja tu inventario</p>
+              <h4 className="mb-2 text-primary-700">Ventas</h4>
 
               <DataTable
                 value={transactionsFilterList}

@@ -7,16 +7,17 @@ import { useEffect, useState } from "react";
 import { Tag } from "primereact/tag";
 import { useProviders } from "../hooks/useProviders";
 import type { ProviderModel } from "../models/providerModel";
-import AddEditProviderModal from "../components/addEditProviderModal";
+import AddEditProviderModal from "../components/modals/addEditProviderModal";
 import { confirmDialog } from "primereact/confirmdialog";
 import { deleteProvider } from "../services/apiService";
 import { usePurchases } from "../hooks/usePurchases";
 import type { PurchaseModel } from "../models/purchaseModel";
 import { getTotal } from "../utils/getPurchaseTotal";
-import PurchaseModal from "../components/purchaseModal";
-import CreatePurchaseModal from "../components/createPurchaseModal";
+import PurchaseModal from "../components/modals/purchaseModal";
+import CreatePurchaseModal from "../components/modals/createPurchaseModal";
 import { useProduct } from "../hooks/useProducts";
 import { useToast } from "../hooks/useToast";
+import { generatePurchasesExcel } from "../utils/Excel/generatePurchasesReport";
 
 const Purchases = () => {
   const { providers, loadingProviders, refreshProviders } = useProviders();
@@ -144,17 +145,26 @@ const Purchases = () => {
   const TableHeader = () => {
     return (
       <div className="flex mb-4 justify-content-end gap-2">
-        <span className="flex-1">
-          <InputText
-            placeholder="Buscar..."
-            className="w-full"
-            value={globalFilter}
-            onChange={(e) => {
-              const value = e.target.value;
-              setGlobalFilter(value);
-            }}
+        {showPurchases ? (
+          <Button
+            label="Generar reporte"
+            icon="pi pi-file-excel"
+            className="bg-black-alpha-90 text-white border-500"
+            onClick={() => generatePurchasesExcel(purchases, providers)}
           />
-        </span>
+        ) : (
+          <span className="flex-1">
+            <InputText
+              placeholder="Buscar..."
+              className="w-full"
+              value={globalFilter}
+              onChange={(e) => {
+                const value = e.target.value;
+                setGlobalFilter(value);
+              }}
+            />
+          </span>
+        )}
       </div>
     );
   };
@@ -180,7 +190,7 @@ const Purchases = () => {
       <div>
         <div className="flex justify-content-between mx-8">
           <div className="flex flex-column">
-            <h3 className="m-0 mb-1">Administración de compras</h3>
+            <h3 className="m-0 mb-1 text-primary-700">Administración de compras</h3>
             <p className="m-0 text-color-secondary">
               Administra tus proveedores y compra productos
             </p>
@@ -216,8 +226,8 @@ const Purchases = () => {
             <Card className="shadow-none border-solid border-1 border-gray-300 ">
               <div className="flex flex-row gap-1 justify-content-between align-items-center">
                 <div className="flex flex-column">
-                  <h4 className="m-0">Total de proveedores</h4>
-                  <h2 className="mt-2 text-green-700">{providers.length}</h2>
+                  <h4 className="m-0 text-orange-700">Total de proveedores</h4>
+                  <h2 className="mt-2 text-orange-700">{providers.length}</h2>
                 </div>
                 <div>
                   <i className="pi pi-building text-6xl text-green-700" />
@@ -229,8 +239,8 @@ const Purchases = () => {
             <Card className="shadow-none border-solid border-1 border-gray-300 ">
               <div className="flex flex-row gap-1 justify-content-between align-items-center">
                 <div className="flex flex-column">
-                  <h4 className="m-0">Productos debajo de cantidad minima</h4>
-                  <h2 className="mt-2 text-red-400">1</h2>
+                  <h4 className="m-0 text-orange-600">Compras totales</h4>
+                  <h2 className="mt-2 text-orange-600">{purchases.length}</h2>
                 </div>
                 <div>
                   <i className="pi pi-exclamation-triangle text-6xl text-red-400" />
@@ -248,7 +258,7 @@ const Purchases = () => {
           <Card className="mx-8 shadow-none border-solid border-1 border-gray-300">
             {showPurchases ? (
               <>
-                <h4 className="mb-2">Órdenes de compra ({purchases.length})</h4>
+                <h4 className="mb-2 text-primary-700">Órdenes de compra ({purchases.length})</h4>
                 <p className="mb-4">Consulta tus compras realizadas</p>
                 <DataTable
                   value={purchasesFilterList}
@@ -256,6 +266,7 @@ const Purchases = () => {
                   paginator
                   rows={5}
                   rowsPerPageOptions={[5, 10, 25, 50, 100]}
+                  header={TableHeader}
                   emptyMessage="Órdenes de compra no encontradas"
                 >
                   <Column field="id" header="ID" sortable />
@@ -287,7 +298,7 @@ const Purchases = () => {
               </>
             ) : (
               <>
-                <h4 className="mb-2">Proveedores ({providers.length})</h4>
+                <h4 className="mb-2 text-primary-700">Proveedores ({providers.length})</h4>
                 <p className="mb-4">Maneja tus proveedores</p>
 
                 <DataTable

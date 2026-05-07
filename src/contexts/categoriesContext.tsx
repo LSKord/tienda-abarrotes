@@ -1,8 +1,8 @@
 import { createContext } from "react";
-import type { CategorieModel } from "../models/categorieModel"; 
+import type { CategoryModel } from "../models/categoryModel"; 
 
 interface CategoriaContextType {
-  categories: CategorieModel[];
+  categories: CategoryModel[];
   loadingCategories: boolean;
   refreshCategories: () => Promise<void>;
 }

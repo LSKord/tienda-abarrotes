@@ -8,7 +8,7 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import ProductCard from "../components/productSalesComponent";
 import ProductCartCard from "../components/productCartComponent";
 import { Button } from "primereact/button";
-import CheckoutModal from "../components/checkoutSaleModal";
+import CheckoutModal from "../components/modals/checkoutSaleModal";
 import { useCategories } from "../hooks/useCategories";
 import { useUsers } from "../hooks/useUsers";
 import { useToast } from "../hooks/useToast";
@@ -89,7 +89,7 @@ const Sales = () => {
         ) : (
           <Card className="ml-3 w-6 shadow-none border-solid border-1 border-gray-400">
             <h4 className="mb-2 mt-0">
-              <span className="pi pi-box mr-2" /> Productos ({products.length})
+              <span className="pi pi-box mr-2 text-primary-700" /> Productos ({products.length})
             </h4>
             <p className="mb-4 mt-0">Agrega productos al carritos</p>
             <InputText

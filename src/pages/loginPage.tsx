@@ -51,7 +51,7 @@ const Login = () => {
   return (
     <div className="flex justify-content-center align-items-center min-h-screen">
       <Card
-        title={<h3 className="text-center m-0">Bienvenido</h3>}
+        title={<h3 className="text-center m-0 text-primary-700">Bienvenido</h3>}
         subTitle={<p className="text-center m-0">Ingresa con tu cuenta</p>}
         header={header}
         className="w-3 shadow-3"

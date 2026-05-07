@@ -1,7 +1,6 @@
 import type { TransactionModel } from "../models/transactionModel";
 
-
-const getDateFilter = ( date :string,list:TransactionModel[]) => {
+const getDateFilter = (date: string, list: TransactionModel[]) => {
   const today = new Date();
   let startDate;
 
@@ -28,10 +27,10 @@ const getDateFilter = ( date :string,list:TransactionModel[]) => {
       break;
   }
 
-  return list.filter((t)=>{
-      const ticketDate = new Date(t.fechaVenta);
-      return ticketDate >= startDate && ticketDate<=today;
-    })
+  return list.filter((t) => {
+    const ticketDate = new Date(t.fechaVenta);
+    return ticketDate >= startDate && ticketDate <= today;
+  });
 };
 
 export default getDateFilter;

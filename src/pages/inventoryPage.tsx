@@ -13,15 +13,19 @@ import {
 import { Dropdown } from "primereact/dropdown";
 import { useProduct } from "../hooks/useProducts";
 import { useCategories } from "../hooks/useCategories";
-import AddEditProductModal from "../components/addEditProductModal";
+import AddEditProductModal from "../components/modals/addEditProductModal";
 import { confirmDialog } from "primereact/confirmdialog";
 import { deleteProduct } from "../services/apiService";
 import { useToast } from "../hooks/useToast";
+import AddCategoryModal from "../components/modals/addCategoryModal";
+import { generateInventoryExcel } from "../utils/Excel/generateInventoryReport";
 
 const Inventory = () => {
   const { products, refresh, loadingProducts } = useProduct();
   const { categories, loadingCategories } = useCategories();
-  const [productFilterList, setProductFilterList] = useState<ProductModel[]>([]);
+  const [productFilterList, setProductFilterList] = useState<ProductModel[]>(
+    []
+  );
   const productsMinimun = productsUnderMinimun(products);
   const [filters, setFilters] = useState<DataTableFilterMeta>({
     global: { value: null, matchMode: "contains" },
@@ -33,6 +37,7 @@ const Inventory = () => {
   });
   const [globalFilter, setGlobalFilter] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  const [categoryModalVisible, setCategoryModalVisible] = useState(false);
   const loading = loadingProducts || loadingCategories;
   const [productToEdit, setProductToEdit] = useState<ProductModel>();
   const { showToast } = useToast();
@@ -146,12 +151,32 @@ const Inventory = () => {
             setProductToEdit(undefined);
           }}
         />
+
+        <Button
+          icon="pi pi-folder-plus"
+          label="Agregar categoria"
+          className="bg-black-alpha-90 text-white border-500"
+          onClick={() => {
+            setCategoryModalVisible(true);
+          }}
+        />
+
+        <Button
+          icon="pi pi-file-excel"
+          label="Generar reporte"
+          className="bg-black-alpha-90 text-white border-500"
+          onClick={() => generateInventoryExcel(products,categories)}
+        />
       </div>
     );
   };
 
   return (
     <>
+      <AddCategoryModal
+        visible={categoryModalVisible}
+        onHide={() => setCategoryModalVisible(false)}
+      />
       <AddEditProductModal
         visible={modalVisible}
         onHide={() => setModalVisible(false)}
@@ -178,7 +203,7 @@ const Inventory = () => {
             <Card className="shadow-none border-solid border-1 border-gray-300 ">
               <div className="flex flex-row gap-1 justify-content-between align-items-center">
                 <div className="flex flex-column">
-                  <h4 className="m-0">Productos debajo de cantidad minima</h4>
+                  <h4 className="m-0 text-red-400">Productos debajo de cantidad minima</h4>
                   <h2 className="mt-2 text-red-400">
                     {productsMinimun.length}
                   </h2>
@@ -208,7 +233,7 @@ const Inventory = () => {
         ) : (
           <Card className="mx-8 shadow-none border-solid border-1 border-gray-300">
             <>
-              <h4 className="mb-2">Productos ({products.length})</h4>
+              <h4 className="mb-2 text-primary-700">Productos ({products.length})</h4>
               <p className="mb-4">Maneja tu inventario</p>
 
               <DataTable
@@ -280,7 +305,9 @@ const Inventory = () => {
                 <Column
                   field="precioProducto"
                   header="Precio"
-                  body={(row: ProductModel) => `$${row.precioProducto.toFixed(2)}`}
+                  body={(row: ProductModel) =>
+                    `$${row.precioProducto.toFixed(2)}`
+                  }
                   filter
                   showFilterMatchModes={false}
                   sortable

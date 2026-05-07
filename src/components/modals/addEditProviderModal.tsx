@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import type { Nullable } from "primereact/ts-helpers";
-import { postProvider, putProvider } from "../services/apiService";
-import { useToast } from "../hooks/useToast";
+import { postProvider, putProvider } from "../../services/apiService";
+import { useToast } from "../../hooks/useToast";
 import { Checkbox } from "primereact/checkbox";
-import type { ProviderModel } from "../models/providerModel";
-import { useProviders } from "../hooks/useProviders";
+import type { ProviderModel } from "../../models/providerModel";
+import { useProviders } from "../../hooks/useProviders";
 
 interface AddEditProviderModalProps {
   visible: boolean;
@@ -65,12 +65,12 @@ const AddEditProviderModal = ({
       if (editable) {
         await putProvider(provider, providerToEdit.id);
         showToast("Proveedor Editado", "success");
-        refreshProviders();
+        await refreshProviders();
         onHide();
       } else {
         await postProvider(provider);
         showToast("Proveedor creado", "success");
-        refreshProviders();
+        await refreshProviders();
         onHide();
       }
     } catch (error) {
@@ -108,6 +108,7 @@ const AddEditProviderModal = ({
         draggable={false}
         closable={!sending}
         footer={footer}
+        headerClassName="text-primary-700"
         header={editable ? "Editar proveedor" : "Agregar nuevo proveedor"}
         style={{ width: "30rem" }}
       >

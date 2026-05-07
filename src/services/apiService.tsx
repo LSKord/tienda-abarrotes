@@ -3,7 +3,7 @@ import type { LoginRequest, LoginResponse } from "../models/loginModel";
 import type { ProductModel } from "../models/productModel";
 import type { SaleModel } from "../models/saleModel";
 import type { UserModel } from "../models/userModel";
-import type { CategorieModel } from "../models/categorieModel";
+import type { CategoryModel, newCategoryModel } from "../models/categoryModel";
 import type { ProviderModel } from "../models/providerModel";
 import type { CreatePurchaseModel, PurchaseModel } from "../models/purchaseModel";
 import type { TransactionModel } from "../models/transactionModel";
@@ -40,13 +40,20 @@ export const getUsers = async (token: string): Promise<UserModel[]> => {
   return data;
 };
 
-export const getCategories = async (token: string): Promise<CategorieModel[]> => {
+export const getCategories = async (token: string): Promise<CategoryModel[]> => {
   const url = `${baseUrl}/Categorias`;
-  const response = await axios.get<CategorieModel[]>(url, {
+  const response = await axios.get<CategoryModel[]>(url, {
     headers: { Authorization: `Bearer ${token}` },
   });
   const data = response.data;
   return data;
+};
+
+export const postCategory = async (category: newCategoryModel) => {
+  const url = `${baseUrl}/Categorias`;
+  await axios.post(url, category, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  });
 };
 
 export const getProducts = async (token:string): Promise<ProductModel[]> => {

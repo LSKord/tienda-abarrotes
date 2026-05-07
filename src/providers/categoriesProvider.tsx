@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import type { CategorieModel } from "../models/categorieModel"; 
+import type { CategoryModel } from "../models/categoryModel"; 
 import { getCategories } from "../services/apiService"; 
 import { CategoriesContext } from "../contexts/categoriesContext"; 
 import { useAuth } from "../hooks/useAuth";
 
 export const CategoriesProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const {token,loading} = useAuth();
-  const [categories, setCategories] = useState<CategorieModel[]>([]);
+  const [categories, setCategories] = useState<CategoryModel[]>([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
 
   const fetchData = async () => {

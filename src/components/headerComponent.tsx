@@ -44,7 +44,7 @@ const HeaderAbarrotes = () => {
             className="border-round-md object-cover w-3rem h-3rem m-auto"
           />
           <div className="flex flex-column justify-content-center gap-1">
-            <h2 className="m-0">Tienda</h2>
+            <h2 className="m-0 text-primary-700">Tienda</h2>
             <p className="m-0">Maneja tu tienda</p>
           </div>
         </div>

@@ -2,13 +2,13 @@ import { Card } from "primereact/card";
 import type { ProductModel } from "../models/productModel";
 import { Tag } from "primereact/tag";
 import { Button } from "primereact/button";
-import type { CategorieModel } from "../models/categorieModel";
+import type { CategoryModel } from "../models/categoryModel";
 
 interface ProductCardProps {
   product: ProductModel;
   handleButton: () => void;
   disabled: boolean;
-  categories:CategorieModel[]
+  categories:CategoryModel[]
 }
 
 const ProductCard = ({ product, handleButton, disabled,categories }: ProductCardProps) => {

@@ -1,15 +1,15 @@
 import { Dialog } from "primereact/dialog";
-import type { ProductModel } from "../models/productModel";
+import type { ProductModel } from "../../models/productModel";
 import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
-import { type UserModel } from "../models/userModel";
+import { type UserModel } from "../../models/userModel";
 import { useState } from "react";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { checkoutPayment, postSale } from "../services/apiService";
-import type { SaleModel } from "../models/saleModel";
-import { useProduct } from "../hooks/useProducts";
-import { useToast } from "../hooks/useToast";
-import { useTransactions } from "../hooks/useTransaction";
+import { checkoutPayment, postSale } from "../../services/apiService";
+import type { SaleModel } from "../../models/saleModel";
+import { useProduct } from "../../hooks/useProducts";
+import { useToast } from "../../hooks/useToast";
+import { useTransactions } from "../../hooks/useTransaction";
 
 interface CheckoutModalProps {
   visible: boolean;
@@ -27,9 +27,9 @@ const CheckoutModal = ({
   const [selectedClient, setSelectedClient] = useState<UserModel | null>(null);
   const [selectedMethod, setSelectedMethod] = useState(1);
   const [sending, setSending] = useState(false);
-  const {refresh}=useProduct();
-  const {refreshTransactions} = useTransactions();
-  const {showToast} = useToast();
+  const { refresh } = useProduct();
+  const { refreshTransactions } = useTransactions();
+  const { showToast } = useToast();
   const stripe = useStripe();
   const elements = useElements();
   const price = parseFloat(
@@ -76,25 +76,24 @@ const CheckoutModal = ({
         await stripeSale();
       }
 
-      const sale :SaleModel={
-        idMetodoPagoVenta:selectedMethod,
-        idVendedorVenta: parseInt(localStorage.getItem("user")??"1"),
-        idCompradorVenta:selectedClient?.id??null,
-        detalleVenta:cart.map((p)=>({
-          idProductoVenta:p.id,
-          cantidadProductoVenta:p.cantidadProducto,
-          precioProductoVenta:p.precioProducto
-        }))
-      }
-      console.log(sale.detalleVenta)
+      const sale: SaleModel = {
+        idMetodoPagoVenta: selectedMethod,
+        idVendedorVenta: parseInt(localStorage.getItem("user") ?? "1"),
+        idCompradorVenta: selectedClient?.id ?? null,
+        detalleVenta: cart.map((p) => ({
+          idProductoVenta: p.id,
+          cantidadProductoVenta: p.cantidadProducto,
+          precioProductoVenta: p.precioProducto,
+        })),
+      };
+      console.log(sale.detalleVenta);
       await postSale(sale);
-      console.log("Venta realizada");
-      refresh();
-      showToast("Venta realizada con exito","success");
-      refreshTransactions();
+      await refresh();
+      await refreshTransactions();
+      showToast("Venta realizada con exito", "success");
       onHide();
     } catch (e) {
-      showToast("Error al procesar pago","error");
+      showToast("Error al procesar pago", "error");
       console.error("Error al procesar pago:", e);
     } finally {
       setSending(false);
@@ -124,6 +123,7 @@ const CheckoutModal = ({
   return (
     <div>
       <Dialog
+        headerClassName="text-primary-700"
         header="Confirmar venta"
         visible={visible}
         onHide={onHide}

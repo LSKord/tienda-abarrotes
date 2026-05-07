@@ -1,15 +1,15 @@
 import { Dialog } from "primereact/dialog";
 import { useEffect, useState } from "react";
-import { useCategories } from "../hooks/useCategories";
+import { useCategories } from "../../hooks/useCategories";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { InputNumber } from "primereact/inputnumber";
 import { Dropdown } from "primereact/dropdown";
 import type { Nullable } from "primereact/ts-helpers";
-import { postProduct, putProduct } from "../services/apiService";
-import { useProduct } from "../hooks/useProducts";
-import { useToast } from "../hooks/useToast";
-import type { ProductModel } from "../models/productModel";
+import { postProduct, putProduct } from "../../services/apiService";
+import { useProduct } from "../../hooks/useProducts";
+import { useToast } from "../../hooks/useToast";
+import type { ProductModel } from "../../models/productModel";
 import { Checkbox } from "primereact/checkbox";
 
 interface AddEditProductModalProps {
@@ -75,12 +75,12 @@ const AddEditProductModal = ({
       if (editable) {
         await putProduct(product,productToEdit.id);
         showToast("Producto Editado", "success");
-        refresh();
+        await refresh();
         onHide();
       } else {
         await postProduct(product);
         showToast("Producto creado", "success");
-        refresh();
+        await refresh();
         onHide();
       }
     } catch (error) {
@@ -118,6 +118,7 @@ const AddEditProductModal = ({
         draggable={false}
         closable={!sending}
         footer={footer}
+        headerClassName="text-primary-700"
         header={editable ? "Editar producto" : "Agregar nuevo producto"}
         style={{ width: "30rem" }}
       >

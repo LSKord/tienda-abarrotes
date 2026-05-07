@@ -1,14 +1,14 @@
 import { Dialog } from "primereact/dialog";
-import type { ProviderModel } from "../models/providerModel";
-import type { ProductModel } from "../models/productModel";
+import type { ProviderModel } from "../../models/providerModel";
+import type { ProductModel } from "../../models/productModel";
 import { useState } from "react";
-import type { CreatePurchaseDetailModel } from "../models/purchaseModel";
+import type { CreatePurchaseDetailModel } from "../../models/purchaseModel";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { InputNumber } from "primereact/inputnumber";
-import { usePurchases } from "../hooks/usePurchases";
-import { postPurchase } from "../services/apiService";
-import { useToast } from "../hooks/useToast";
+import { usePurchases } from "../../hooks/usePurchases";
+import { postPurchase } from "../../services/apiService";
+import { useToast } from "../../hooks/useToast";
 
 interface CreatePurchaseModalProps {
   visible: boolean;
@@ -103,6 +103,7 @@ const CreatePurchaseModal = ({
       onHide={handleCancel}
       footer={footer}
       closable={!sending}
+      headerClassName="text-primary-700"
       header={"Crear compra"}
       style={{ width: "40rem" }}
       draggable={false}

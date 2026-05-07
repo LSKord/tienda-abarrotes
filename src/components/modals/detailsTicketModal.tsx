@@ -1,7 +1,7 @@
 import { Dialog } from "primereact/dialog";
-import type { TransactionModel } from "../models/transactionModel";
-import type { UserModel } from "../models/userModel";
-import type { ProductModel } from "../models/productModel";
+import type { TransactionModel } from "../../models/transactionModel";
+import type { UserModel } from "../../models/userModel";
+import type { ProductModel } from "../../models/productModel";
 import { Divider } from "primereact/divider";
 
 interface DetailsTicketsProps {
@@ -28,6 +28,7 @@ const DetailsTicketModal = ({
 
   return (
     <Dialog
+      headerClassName="text-primary-700"
       header="Detalles de venta"
       visible={visible}
       onHide={onHide}
@@ -78,7 +79,7 @@ const DetailsTicketModal = ({
           </div>
         </div>
 
-        <Divider/>
+        <Divider />
 
         <h5 className="mt-0 text-lg">Productos vendidos</h5>
         <div className="flex flex-column gap-2">
@@ -106,7 +107,7 @@ const DetailsTicketModal = ({
           })}
         </div>
 
-        <Divider/>
+        <Divider />
 
         <div className="flex justify-content-between">
           <strong>Total</strong>
